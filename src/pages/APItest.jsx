@@ -6,6 +6,12 @@ export default function APItest() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
+        document.title = 'APItest 페이지';
+      }, []);
+
+      
+
+    useEffect(() => {
         connectTest()
             .then((res) =>
                 setMessage(res.data)
@@ -14,6 +20,7 @@ export default function APItest() {
                 setMessage('API 호출 실패')
             );
     }, []);
+
 
     return <div>
         <h1>연결 테스트</h1>
