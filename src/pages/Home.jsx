@@ -19,6 +19,11 @@ export default function Home() {
     navigate('/LoginPage');
   };
 
+  const goToSignupPage = () => {
+    navigate('/SignupPage');
+  };
+
+
   const handleLogout = async () => {
     try {
       await logoutApi(); // 서버에 로그아웃 요청
@@ -41,8 +46,12 @@ export default function Home() {
       {isLoggedIn ? (
         <button onClick={handleLogout}>로그아웃</button>
       ) : (
+        <>
         <button onClick={goToLoginPage}>로그인</button>
+        <button onClick={goToSignupPage}>회원가입</button>
+        </>
       )}
+      
     </div>
   );
 }
