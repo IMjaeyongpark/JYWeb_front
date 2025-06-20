@@ -1,4 +1,6 @@
 import axios from 'axios';
+import axiosInstance from './axiosInstance';
+
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -37,7 +39,7 @@ export const register = async ({ loginId, password, nickname }) => {
 export const logout = async () => {
   const accessToken = localStorage.getItem('accessToken');
 
-  return await axios.delete(`${BASE_URL}/user/logout`, {
+  return await axiosInstance.delete(`${BASE_URL}/user/logout`, {
     headers: {
       Authorization: accessToken,
     },
