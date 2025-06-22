@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { logout as logoutApi } from '../api/user'; // ← 경로에 맞게 조정
+import { logout as logoutApi } from '../api/user';
+import BoardList from '../components/BoardList'; // ← 경로에 맞게 import
 
 export default function Home() {
   const navigate = useNavigate();
@@ -11,27 +12,16 @@ export default function Home() {
     setIsLoggedIn(!!token);
   }, []);
 
-  const goToAPItest = () => {
-    navigate('/APItest');
-  };
-
-  const goToLoginPage = () => {
-    navigate('/LoginPage');
-  };
-
-  const goToSignupPage = () => {
-    navigate('/SignupPage');
-  };
-
+  const goToAPItest = () => { navigate('/APItest'); };
+  const goToLoginPage = () => { navigate('/LoginPage'); };
+  const goToSignupPage = () => { navigate('/SignupPage'); };
 
   const handleLogout = async () => {
     try {
-      await logoutApi(); // 서버에 로그아웃 요청
+      await logoutApi();
     } catch (err) {
       console.error('로그아웃 오류:', err);
     }
-
-    // 클라이언트 토큰 제거
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('loginId');
@@ -47,11 +37,12 @@ export default function Home() {
         <button onClick={handleLogout}>로그아웃</button>
       ) : (
         <>
-        <button onClick={goToLoginPage}>로그인</button>
-        <button onClick={goToSignupPage}>회원가입</button>
+          <button onClick={goToLoginPage}>로그인</button>
+          <button onClick={goToSignupPage}>회원가입</button>
         </>
       )}
-      
+      {/* 게시글 리스트 */}
+      <BoardList />
     </div>
   );
 }

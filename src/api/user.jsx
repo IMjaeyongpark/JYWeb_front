@@ -41,7 +41,7 @@ export const logout = async () => {
 
   return await axiosInstance.delete(`${BASE_URL}/user/logout`, {
     headers: {
-      Authorization: accessToken,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };

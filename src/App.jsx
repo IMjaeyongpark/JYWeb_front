@@ -4,6 +4,7 @@ import APItest from './pages/APItest';
 import LoginPage from './pages/LoginPage';
 import PrivateRoute from './components/PrivateRoute';
 import SignupPage from './pages/SignupPage';
+import BoardDetailPage from './pages/BoardDetailPage';
 
 export default function App() {
   return (
@@ -12,7 +13,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/LoginPage" element={<LoginPage />} />
         <Route path="/SignupPage" element={<SignupPage/>}/>
-
+        <Route path="/pages/BoardDetailPage/:boardId" element={<BoardDetailPage />} />
         {/* 로그인 필요한 경로 */}
         <Route
           path="/APItest"
