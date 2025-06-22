@@ -28,8 +28,8 @@ export default function BoardList() {
   const handlePrev = () => setPageNum(prev => Math.max(prev - 1, 0));
   const handleNext = () => setPageNum(prev => (prev + 1 < totalPages ? prev + 1 : prev));
   const goDetail = (boardId) => {
-    // /pages/BoardDetailPage/:boardId로 이동
-    navigate(`/pages/BoardDetailPage/${boardId}`);
+    // /board/:boardId로 이동
+    navigate(`/board/${boardId}`);
   };
 
   return (

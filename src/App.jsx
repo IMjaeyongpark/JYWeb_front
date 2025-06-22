@@ -11,9 +11,9 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/LoginPage" element={<LoginPage />} />
-        <Route path="/SignupPage" element={<SignupPage/>}/>
-        <Route path="/pages/BoardDetailPage/:boardId" element={<BoardDetailPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage/>}/>
+        <Route path="/board/:boardId" element={<BoardDetailPage />} />
         {/* 로그인 필요한 경로 */}
         <Route
           path="/APItest"

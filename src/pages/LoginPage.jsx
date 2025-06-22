@@ -31,7 +31,7 @@ export default function LoginPage() {
   };
 
   const goToSignup = () => {
-    navigate('/SignupPage');
+    navigate('/signup');
   };
 
   if (localStorage.getItem('accessToken')) {

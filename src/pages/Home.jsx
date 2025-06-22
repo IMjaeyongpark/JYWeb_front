@@ -13,8 +13,8 @@ export default function Home() {
   }, []);
 
   const goToAPItest = () => { navigate('/APItest'); };
-  const goToLoginPage = () => { navigate('/LoginPage'); };
-  const goToSignupPage = () => { navigate('/SignupPage'); };
+  const goToLoginPage = () => { navigate('/login'); };
+  const goToSignupPage = () => { navigate('/signup'); };
 
   const handleLogout = async () => {
     try {

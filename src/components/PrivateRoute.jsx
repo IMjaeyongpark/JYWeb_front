@@ -7,7 +7,7 @@ export default function PrivateRoute({ children }) {
 
   if (!token) {
     // 로그인 안 되어 있으면 로그인 페이지로 이동하면서 현재 위치를 기억
-    return <Navigate to="/LoginPage" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return children;

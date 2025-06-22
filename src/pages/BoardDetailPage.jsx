@@ -13,7 +13,6 @@ export default function BoardDetailPage() {
   useEffect(() => {
     fetchBoardDetail();
     fetchComments();
-    // eslint-disable-next-line
   }, [boardId, pageNum]);
 
   const fetchBoardDetail = async () => {
