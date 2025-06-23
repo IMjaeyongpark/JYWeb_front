@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <div>
-      <button onClick={goToAPItest}>소개 페이지로 이동</button>
+      <button onClick={goToAPItest}>API 테스트</button>
       {isLoggedIn ? (
         <button onClick={handleLogout}>로그아웃</button>
       ) : (

@@ -13,8 +13,8 @@ export const connectTest = () => {
 //로그인
 export const login = async ({ loginId, password }) => {
   return await axios.post(`${BASE_URL}/user/login`, {
-    'loginId' : loginId,
-    'password' : password,
+    'loginId': loginId,
+    'password': password,
   }, {
     headers: {
       'Content-Type': 'application/json'  // 명시적으로 추가해주면 안정적
@@ -25,9 +25,9 @@ export const login = async ({ loginId, password }) => {
 //회원가입
 export const register = async ({ loginId, password, nickname }) => {
   return await axios.post(`${BASE_URL}/user/register`, {
-    'loginId' : loginId,
-    'password' : password,
-    'nickname' : nickname
+    'loginId': loginId,
+    'password': password,
+    'nickname': nickname
   }, {
     headers: {
       'Content-Type': 'application/json'  // 명시적으로 추가해주면 안정적
@@ -54,8 +54,8 @@ export const refresh = async () => {
   const refreshToken = localStorage.getItem('refreshToken');
 
   return await axios.post(`${BASE_URL}/user/refresh`, {
-    'loginId' : loginId,
-    'refreshToken' : refreshToken,
+    'loginId': loginId,
+    'refreshToken': refreshToken,
   }, {
     headers: {
       'Content-Type': 'application/json'  // 명시적으로 추가해주면 안정적
@@ -76,8 +76,8 @@ export const checkId = async (loginId) => {
 export const checkNickname = async (nickname) => {
 
   return await axios.get(`${BASE_URL}/user/checkNickname`,
-  {
-    params: { nickname },
-  })
+    {
+      params: { nickname },
+    })
 };
 

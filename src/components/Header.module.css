@@ -1,0 +1,50 @@
+.header {
+    width: 100%;
+    background: #3d468c;
+    color: #fff;
+    position: fixed;   /* 스크롤해도 항상 상단에 고정 */
+    top: 0;
+    left: 0;
+    z-index: 1000;     /* 항상 맨 위에 */
+  }
+  .logoSection {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    background: #fff;
+    color: #222;
+    padding: 0 2rem;
+  }
+  .logo {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #000;
+    margin-right: 2rem;
+  }
+  .search {
+    flex: 1;
+    max-width: 500px;
+    margin-left: 2rem;
+    height: 36px;
+    padding: 0 1rem;
+    border: 1px solid #3d468c;
+    border-radius: 4px;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    height: 40px;
+    background: #3d468c;
+  }
+  .nav a {
+    color: #fff;
+    margin-right: 2rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  .nav a:hover {
+    color: #ffd400;
+  }
+  

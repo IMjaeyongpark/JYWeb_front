@@ -30,10 +30,11 @@ export const getBoard = async (pageNum, pageSize) => {
 //게시글 상세 내용 가져오기
 export const getBoardDetail = async (boardId) => {
     return await axios.get(`${BASE_URL}/board/getDetail`, {
-        params: { boardId }
+      params: { boardId },
+      withCredentials: true
     });
-};
-
+  };
+  
 //특정 사용자 게시물 목록 가져오기
 export const getUserBoard = async (pageNum, pageSize) => {
     const params = { pageNum };
