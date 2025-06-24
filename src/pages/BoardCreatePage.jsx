@@ -12,7 +12,6 @@ export default function BoardCreatePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
 
     if (!title || !content) {
       setError('제목과 내용을 입력하세요.');
@@ -21,8 +20,7 @@ export default function BoardCreatePage() {
 
     try {
       await createBoard( title, content ); // 실제 API 호출
-      setSuccess('게시글이 등록되었습니다!');
-      setTimeout(() => navigate('/'), 800); // 0.8초 뒤 목록으로 이동
+      setTimeout(() => navigate('/')); // 0.8초 뒤 목록으로 이동
     } catch (e) {
       setError('게시글 등록 실패');
     }

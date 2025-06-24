@@ -11,7 +11,7 @@ export const createComment = async (boardId, content, parentId) => {
     if (parentId !== undefined && parentId !== null) {
         body.parentId = parentId;
     }
-    return await axiosInstance.post(`${BASE_URL}/comment/create`, { body });
+    return await axiosInstance.post(`${BASE_URL}/comment/create`, body );
 };
 
 //댓글 삭제

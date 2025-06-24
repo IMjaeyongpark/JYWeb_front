@@ -1,24 +1,26 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getBoardDetail, deleteBoard } from '../api/board';
-import { getComment } from '../api/comment';
+import { getComment, deleteComment } from '../api/comment';
+import styles from './BoardDetailPage.module.css';
+import CommentInput from '../components/CommentInput'
 
 export default function BoardDetailPage() {
   const { boardId } = useParams();
   const navigate = useNavigate();
   const [board, setBoard] = useState(null);
   const [comments, setComments] = useState([]);
-  const [pageNum, setPageNum] = useState(0);
+  const [pageNum] = useState(0);
   const [pageSize] = useState(10);
+  const [replyOpenId, setReplyOpenId] = useState(null); // 대댓글 입력폼 열림 상태
 
-  // 로그인한 유저의 loginId
   const currentUserId = localStorage.getItem('loginId');
 
   useEffect(() => {
     fetchBoardDetail();
     fetchComments();
     // eslint-disable-next-line
-  }, [boardId, pageNum]);
+  }, [boardId]);
 
   const fetchBoardDetail = async () => {
     try {
@@ -38,49 +40,131 @@ export default function BoardDetailPage() {
     }
   };
 
-  // 삭제
+  const handleDeleteComment = async (commentId) => {
+    if (!window.confirm('댓글을 삭제할까요?')) return;
+    try {
+      await deleteComment(commentId);
+      fetchComments();
+    } catch (err) {
+      alert('댓글 삭제 실패');
+    }
+  };
+
   const handleDelete = async () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
     try {
       await deleteBoard(board.boardId);
       alert('삭제되었습니다.');
-      navigate('/'); // 홈 또는 게시판 목록
+      navigate('/');
     } catch (err) {
       alert('삭제 실패');
     }
   };
 
+  const handleReplyOpen = (commentId) => setReplyOpenId(commentId);
+  const handleReplyClose = () => setReplyOpenId(null);
+
+  // 댓글/대댓글 렌더링 함수
+  const renderComment = (comment, depth = 0) => (
+    <li
+      className={`${styles.commentItem} ${depth === 1 ? styles.replyItem : ''}`}
+      key={comment.commentId}
+      style={{ marginLeft: depth * 28 }}
+    >
+      {/* ...나머지 코드는 동일 */}
+      <div className={styles.commentHeader}>
+        <span className={styles.commentUser}>{comment.userNickname}</span>
+        <span className={styles.commentDate}>{comment.createdAt?.replace('T', ' ').slice(5, 16)}</span>
+        {!comment.deletedAt && comment.loginId === currentUserId && (
+          <button
+            type="button"
+            className={styles.commentDelete}
+            title="댓글 삭제"
+            onClick={() => handleDeleteComment(comment.commentId)}
+            aria-label="댓글 삭제"
+          >
+            &times;  {/* 또는 <X size={18} /> */}
+          </button>
+        )}
+      </div>
+      <div className={styles.commentContent}>
+        {comment.deletedAt ? (
+          <span style={{ color: "#bbb", fontStyle: "italic" }}>삭제되었습니다</span>
+        ) : (
+          comment.content
+        )}
+      </div>
+      {!comment.deletedAt && currentUserId && (
+        <button
+          className={styles.replyBtn}
+          onClick={() =>
+            replyOpenId === comment.commentId
+              ? handleReplyClose()
+              : handleReplyOpen(comment.commentId)
+          }
+        >
+          답글
+        </button>
+      )}
+      {!comment.deletedAt && replyOpenId === comment.commentId && (
+        <CommentInput
+          boardId={boardId}
+          parentId={comment.commentId}
+          onSuccess={() => {
+            fetchComments();
+            handleReplyClose();
+          }}
+          autoFocus
+        />
+      )}
+      {comment.replies && comment.replies.length > 0 && (
+        <ul className={styles.commentList}>
+          {comment.replies.map(reply => renderComment(reply, 1))}
+        </ul>
+      )}
+    </li>
+  );
+
+
   if (!board) return <div>로딩중...</div>;
 
   return (
-    <div>
-      <h2>{board.title}</h2>
-      <div>
-        <span>작성자: {board.userNickname}</span>
-        <span style={{ marginLeft: '20px' }}>조회수: {board.viewCount}</span>
-        <span style={{ marginLeft: '20px' }}>{board.createdAt?.split('T')[0]}</span>
+    <div className={styles.container}>
+      <h2 className={styles.title}>{board.title}</h2>
+      <div className={styles.infoBar}>
+        <div className={styles.infoLeft}>
+          <span>작성자: {board.userNickname}</span>
+          <span>조회수: {board.viewCount}</span>
+          <span>{board.createdAt?.split('T')[0]}</span>
+        </div>
+        {board.loginId === currentUserId && (
+          <button onClick={handleDelete} className={styles.deleteBtn}>삭제</button>
+        )}
       </div>
-      {/* 삭제 버튼: 본인 글일 때만 노출 */}
-      {board.loginId === currentUserId && (
-        <button onClick={handleDelete} style={{ margin: '1em 0', color: 'red' }}>삭제</button>
-      )}
       <hr />
-      <div style={{ minHeight: '200px', margin: '1em 0' }}>{board.content}</div>
+      <div className={styles.content}>{board.content}</div>
       <hr />
       <h3>댓글</h3>
-      {comments.length === 0 ? (
-        <p>댓글이 없습니다.</p>
-      ) : (
-        <ul>
-          {comments.map(comment => (
-            <li key={comment.commentId}>
-              <strong>{comment.userNickname}</strong> ({comment.createdAt?.split('T')[0]})
-              <div>{comment.content}</div>
-            </li>
-          ))}
-        </ul>
-      )}
-      {/* 페이지네이션, 댓글 작성 폼 등 추가 가능 */}
-    </div>
+      <div style={{ marginTop: 20 }}>
+        {comments.length === 0 ? (
+          <p className={styles.noComment}>댓글이 없습니다.</p>
+        ) : (
+          <ul className={styles.commentList}>
+            {comments.map(comment => renderComment(comment))}
+          </ul>
+        )}
+        {/* 최상위 댓글 입력폼 (로그인시만) */}
+        {currentUserId && (
+          <CommentInput
+            boardId={boardId}
+            onSuccess={fetchComments}
+          />
+        )}
+      </div>
+      <div style={{
+        paddingBottom: "100px"
+      }}>
+      </div>
+    </div >
   );
 }
