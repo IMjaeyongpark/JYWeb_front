@@ -19,10 +19,12 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const res = await login(form);
-      const { accessToken, refreshToken } = res.data;
+      const { accessToken, refreshToken, loginId, nickname } = res.data;
 
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('loginId', loginId);
+      localStorage.setItem('nickname', nickname);
 
       navigate(from, { replace: true });
     } catch (err) {

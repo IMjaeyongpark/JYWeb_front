@@ -4,6 +4,7 @@ import { getBoard } from '../api/board';
 import styles from './BoardList.module.css';
 import { formatBoardDate } from '../utils/dateFormat';
 import Pagination from './Pagination';
+import BoardTabBar from './BoardTabBar';
 
 export default function BoardList() {
   const [boards, setBoards] = useState([]);
@@ -15,7 +16,6 @@ export default function BoardList() {
 
   useEffect(() => {
     fetchBoards();
-    // eslint-disable-next-line
   }, [pageNum, pageSize]);
 
   const fetchBoards = async () => {
@@ -27,21 +27,25 @@ export default function BoardList() {
       alert('게시글 목록 불러오기 실패');
     }
   };
+
   const goDetail = (boardId) => {
     navigate(`/board/${boardId}`);
   };
 
+  const goToCreate = () => {
+    navigate('/board/create');
+  };
+
   return (
-    <div
-      style={{
-        marginTop: '2rem',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-      }}
-    >
-      <h2>게시글 목록</h2>
+    // 화면 전체를 flex로 감싸고 세로 방향 중앙 정렬
+    <div style={{
+      minHeight: '80vh', // 높이조절(원하면 100vh)
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center', // 세로 중앙
+      alignItems: 'center', // 가로 중앙
+    }}>
+      <BoardTabBar />
       <table className={styles.table} style={{ margin: '0 auto' }}>
         <thead className={styles.thead}>
           <tr>

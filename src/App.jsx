@@ -6,6 +6,9 @@ import PrivateRoute from './components/PrivateRoute';
 import SignupPage from './pages/SignupPage';
 import BoardDetailPage from './pages/BoardDetailPage';
 import Header from './components/Header';
+import BoardCreatePage from './pages/BoardCreatePage';
+
+
 
 export default function App() {
   return (
@@ -17,11 +20,17 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/board/:boardId" element={<BoardDetailPage />} />
-          <Route
-            path="/APItest"
+          <Route path="/APItest"
             element={
               <PrivateRoute>
                 <APItest />
+              </PrivateRoute>
+            }
+          />
+           <Route path="/board/create"
+            element={
+              <PrivateRoute>
+                <BoardCreatePage />
               </PrivateRoute>
             }
           />

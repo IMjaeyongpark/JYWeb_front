@@ -8,8 +8,8 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const createBoard = async (title, content) => {
 
     return await axiosInstance.post(`${BASE_URL}/board/create`, {
-        'title': title,
-        'content': content
+        title,
+        content
     });
 };
 
@@ -30,11 +30,11 @@ export const getBoard = async (pageNum, pageSize) => {
 //게시글 상세 내용 가져오기
 export const getBoardDetail = async (boardId) => {
     return await axios.get(`${BASE_URL}/board/getDetail`, {
-      params: { boardId },
-      withCredentials: true
+        params: { boardId },
+        withCredentials: true
     });
-  };
-  
+};
+
 //특정 사용자 게시물 목록 가져오기
 export const getUserBoard = async (pageNum, pageSize) => {
     const params = { pageNum };

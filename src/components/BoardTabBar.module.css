@@ -1,0 +1,71 @@
+.tabBarWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 10px auto;
+    padding: 0 4px 0 0;
+  }
+  
+  .tabs {
+    display: flex;
+    align-items: center;
+  }
+  
+  .tab {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    color: #2e387d;
+    border: 2px solid #2e387d;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0 16px;
+    height: 32px;
+    cursor: pointer;
+    transition: 0.15s;
+  }
+  
+  .tab:last-child {
+    border-right: 1.5px solid #c6cbe2;
+  }
+  
+  .active {
+    background: #3e4a91;
+    color: #fff;
+    border: 1.5px solid #3e4a91;
+  }
+  
+  .rightGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .writeBtn {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    color: #2e387d;
+    border: 2px solid #2e387d;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0 16px;
+    height: 32px;
+    cursor: pointer;
+    transition: 0.15s;
+  }
+  
+  .writeBtn:hover {
+    background: #2e387d;
+    color: #fff;
+  }
+  
+  .icon {
+    margin-right: 6px;
+    font-size: 18px;
+  }
+  

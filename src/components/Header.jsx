@@ -14,12 +14,8 @@ export default function Header() {
       </div>
       
       <nav className={styles.nav}>
-        <a href="#">갤러리</a>
-        <a href="#">마이너갤</a>
-        <a href="#">미니갤</a>
-        <a href="#">인물갤</a>
-        <a href="#">갤로그</a>
-        <a href="#">디시트렌드</a>
+        <a href="/">테스트1</a>
+        <a href="/">테스트2</a>
       </nav>
     </header>
   );

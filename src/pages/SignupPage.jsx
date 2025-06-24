@@ -148,7 +148,7 @@ export default function Signup() {
   };
 
   const goToLoginPage = () => {
-    navigate('/LoginPage');
+    navigate('/login');
   };
 
   // 회원가입 버튼 비활성화 조건
