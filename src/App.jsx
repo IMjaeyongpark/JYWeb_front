@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import BoardDetailPage from './pages/BoardDetailPage';
 import Header from './components/Header';
 import BoardCreatePage from './pages/BoardCreatePage';
+import BoardUpdatePage from './pages/BoardUpdatePage';
 
 
 
@@ -31,6 +32,13 @@ export default function App() {
             element={
               <PrivateRoute>
                 <BoardCreatePage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/board/update/:boardId"
+            element={
+              <PrivateRoute>
+                <BoardUpdatePage />
               </PrivateRoute>
             }
           />

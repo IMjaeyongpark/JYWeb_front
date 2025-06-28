@@ -1,5 +1,3 @@
-// src/api/axiosInstance.js
-
 import axios from 'axios';
 import { refresh } from './user';
 
@@ -21,7 +19,6 @@ axiosInstance.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// 응답 인터셉터로 accessToken 만료 자동 감지 및 refresh
 let isRefreshing = false;
 let subscribers = [];
 
@@ -49,7 +46,7 @@ axiosInstance.interceptors.response.use(
                 // 이미 리프레시 중이면 큐에 넣고 기다림
                 return new Promise((resolve) => {
                     addSubscriber((token) => {
-                        originalRequest.headers.Authorization = token;
+                        originalRequest.headers.Authorization = 'Bearer ' + token;
                         resolve(axiosInstance(originalRequest));
                     });
                 });
@@ -61,15 +58,15 @@ axiosInstance.interceptors.response.use(
                 const newAccessToken = res.data.accessToken;
                 localStorage.setItem('accessToken', newAccessToken);
 
-                // 대기 중이던 요청 처리
+                // 대기 중이던 요청 모두 재시도
                 onRefreshed(newAccessToken);
 
-                originalRequest.headers.Authorization = newAccessToken;
+                originalRequest.headers.Authorization = 'Bearer ' + newAccessToken;
                 return axiosInstance(originalRequest);
             } catch (err) {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
-                window.location.href = '/login'; // 강제로그인 이동
+                window.location.href = '/login';
                 return Promise.reject(err);
             } finally {
                 isRefreshing = false;

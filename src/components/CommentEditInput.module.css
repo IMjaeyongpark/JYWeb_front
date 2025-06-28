@@ -1,0 +1,35 @@
+.editForm {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .editInput {
+    flex: 1;
+    padding: 4px 6px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1rem;
+  }
+  
+  .editBtn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #1371C4;
+    padding: 2px 8px;
+  }
+  
+  .cancelBtn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #888;
+    padding: 2px 8px;
+  }
+  

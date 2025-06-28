@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { getBoardDetail, deleteBoard } from '../api/board';
 import { getComment, deleteComment } from '../api/comment';
 import styles from './BoardDetailPage.module.css';
-import CommentInput from '../components/CommentInput'
+import CommentInput from '../components/CommentInput';
+import CommentEditInput from '../components/CommentEditInput'; // (아래 코드 참고)
 
 export default function BoardDetailPage() {
   const { boardId } = useParams();
@@ -12,7 +13,8 @@ export default function BoardDetailPage() {
   const [comments, setComments] = useState([]);
   const [pageNum] = useState(0);
   const [pageSize] = useState(10);
-  const [replyOpenId, setReplyOpenId] = useState(null); // 대댓글 입력폼 열림 상태
+  const [replyOpenId, setReplyOpenId] = useState(null);
+  const [editOpenId, setEditOpenId] = useState(null);
 
   const currentUserId = localStorage.getItem('loginId');
 
@@ -61,6 +63,10 @@ export default function BoardDetailPage() {
     }
   };
 
+  const goUpdate = () => {
+    navigate(`/board/update/${board.boardId}`);
+  };
+
   const handleReplyOpen = (commentId) => setReplyOpenId(commentId);
   const handleReplyClose = () => setReplyOpenId(null);
 
@@ -71,24 +77,44 @@ export default function BoardDetailPage() {
       key={comment.commentId}
       style={{ marginLeft: depth * 28 }}
     >
-      {/* ...나머지 코드는 동일 */}
       <div className={styles.commentHeader}>
         <span className={styles.commentUser}>{comment.userNickname}</span>
         <span className={styles.commentDate}>{comment.createdAt?.replace('T', ' ').slice(5, 16)}</span>
+        {/* 오른쪽 버튼 그룹 */}
         {!comment.deletedAt && comment.loginId === currentUserId && (
-          <button
-            type="button"
-            className={styles.commentDelete}
-            title="댓글 삭제"
-            onClick={() => handleDeleteComment(comment.commentId)}
-            aria-label="댓글 삭제"
-          >
-            &times;  {/* 또는 <X size={18} /> */}
-          </button>
+          <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+            <button
+              type="button"
+              className={styles.commentEdit}
+              title="댓글 수정"
+              onClick={() =>
+                editOpenId === comment.commentId
+                  ? setEditOpenId(null)
+                  : setEditOpenId(comment.commentId)
+              }
+              aria-label="댓글 수정"
+            >수정</button>
+            <button
+              type="button"
+              className={styles.commentDelete}
+              title="댓글 삭제"
+              onClick={() => handleDeleteComment(comment.commentId)}
+              aria-label="댓글 삭제"
+            >&times;</button>
+          </div>
         )}
       </div>
       <div className={styles.commentContent}>
-        {comment.deletedAt ? (
+        {editOpenId === comment.commentId ? (
+          <CommentEditInput
+            comment={comment}
+            onSuccess={() => {
+              fetchComments();
+              setEditOpenId(null);
+            }}
+            onCancel={() => setEditOpenId(null)}
+          />
+        ) : comment.deletedAt ? (
           <span style={{ color: "#bbb", fontStyle: "italic" }}>삭제되었습니다</span>
         ) : (
           comment.content
@@ -125,7 +151,6 @@ export default function BoardDetailPage() {
     </li>
   );
 
-
   if (!board) return <div>로딩중...</div>;
 
   return (
@@ -138,7 +163,10 @@ export default function BoardDetailPage() {
           <span>{board.createdAt?.split('T')[0]}</span>
         </div>
         {board.loginId === currentUserId && (
-          <button onClick={handleDelete} className={styles.deleteBtn}>삭제</button>
+          <div className={styles.actionBtns}>
+            <button onClick={handleDelete} className={styles.deleteBtn}>삭제</button>
+            <button onClick={goUpdate} className={styles.updateBtn}>수정</button>
+          </div>
         )}
       </div>
       <hr />
@@ -163,8 +191,7 @@ export default function BoardDetailPage() {
       </div>
       <div style={{
         paddingBottom: "100px"
-      }}>
-      </div>
-    </div >
+      }} />
+    </div>
   );
 }
