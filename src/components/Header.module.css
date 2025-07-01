@@ -2,34 +2,76 @@
     width: 100%;
     background: #3d468c;
     color: #fff;
-    position: fixed;   /* 스크롤해도 항상 상단에 고정 */
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 1000;     /* 항상 맨 위에 */
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
+  
   .logoSection {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    height: 60px;
+    height: 70px;
     background: #fff;
     color: #222;
     padding: 0 2rem;
   }
+  
   .logo {
     font-weight: bold;
     font-size: 2rem;
     color: #000;
-    margin-right: 2rem;
+    cursor: pointer;
   }
-  .search {
+  
+  /* 가운데 검색창 */
+  .center {
     flex: 1;
-    max-width: 500px;
-    margin-left: 2rem;
-    height: 36px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* 오른쪽 버튼 정렬 */
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .search {
+    width: 400px;
+    height: 38px;
     padding: 0 1rem;
     border: 1px solid #3d468c;
-    border-radius: 4px;
+    border-radius: 20px;
+    outline: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
   }
+  
+  .search:focus {
+    border-color: #ffd400;
+    box-shadow: 0 0 4px #ffd40055;
+  }
+  
+  .btn {
+    background-color: #3d468c;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .btn:hover {
+    background-color: #2c3270;
+  }
+  
+  /* nav 영역 유지 */
   .nav {
     display: flex;
     align-items: center;
@@ -37,6 +79,7 @@
     height: 40px;
     background: #3d468c;
   }
+  
   .nav a {
     color: #fff;
     margin-right: 2rem;
@@ -44,6 +87,7 @@
     font-weight: 500;
     font-size: 1rem;
   }
+  
   .nav a:hover {
     color: #ffd400;
   }

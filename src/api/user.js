@@ -54,7 +54,7 @@ export const checkId = async (loginId) => {
 
   return await axios.get(
     `${BASE_URL}/user/checkId`,
-    { loginId }
+    { params: { loginId: loginId } }
   )
 };
 
@@ -63,7 +63,7 @@ export const checkNickname = async (nickname) => {
 
   return await axios.get(
     `${BASE_URL}/user/checkNickname`,
-    { nickname }
+    { params: { nickname: nickname } }
   )
 };
 

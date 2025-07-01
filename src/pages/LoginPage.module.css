@@ -1,0 +1,83 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 100px);
+    background-color: #f5f6fa;
+  }
+  
+  .card {
+    background: #fff;
+    padding: 3rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .title {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #3d468c;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .input {
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 1px solid #dcdde1;
+    border-radius: 6px;
+    outline: none;
+    transition: 0.2s ease;
+  }
+  
+  .input:focus {
+    border-color: #3d468c;
+    box-shadow: 0 0 0 2px #3d468c22;
+  }
+  
+  .button {
+    padding: 10px;
+    background-color: #3d468c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .button:hover {
+    background-color: #2c3270;
+  }
+  
+  .secondaryButton {
+    margin-top: 1rem;
+    padding: 8px;
+    background-color: transparent;
+    color: #3d468c;
+    border: 1px solid #3d468c;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .secondaryButton:hover {
+    background-color: #3d468c;
+    color: white;
+  }
+  
+  .error {
+    margin-top: 1rem;
+    color: red;
+    font-size: 0.9rem;
+  }
+  

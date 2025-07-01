@@ -1,8 +1,9 @@
+import styles from './LoginPage.module.css';
 import { useState } from 'react';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../api/user';
 
-export default function LoginPage() {
+export default function LoginPage({ setIsLoggedIn }) {
   const [form, setForm] = useState({ loginId: '', password: '' });
   const [error, setError] = useState('');
 
@@ -26,6 +27,7 @@ export default function LoginPage() {
       localStorage.setItem('loginId', loginId);
       localStorage.setItem('nickname', nickname);
 
+      setIsLoggedIn(true);
       navigate(from, { replace: true });
     } catch (err) {
       setError('로그인 실패');
@@ -41,27 +43,33 @@ export default function LoginPage() {
   }
 
   return (
-    <div>
-      <h2>로그인</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="loginId"
-          placeholder="아이디"
-          value={form.loginId}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="비밀번호"
-          value={form.password}
-          onChange={handleChange}
-        />
-        <button type="submit">로그인</button>
-      </form>
-      <button onClick={goToSignup}>회원가입</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2 className={styles.title}>로그인</h2>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <input
+            type="text"
+            name="loginId"
+            placeholder="아이디"
+            value={form.loginId}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="비밀번호"
+            value={form.password}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <button type="submit" className={styles.button}>로그인</button>
+        </form>
+        <button onClick={goToSignup} className={styles.secondaryButton}>
+          회원가입
+        </button>
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
     </div>
   );
 }
