@@ -4,7 +4,7 @@ import { getBoardDetail, deleteBoard } from '../api/board';
 import { getComment, deleteComment } from '../api/comment';
 import styles from './BoardDetailPage.module.css';
 import CommentInput from '../components/CommentInput';
-import CommentEditInput from '../components/CommentEditInput'; // (아래 코드 참고)
+import CommentEditInput from '../components/CommentEditInput';
 
 export default function BoardDetailPage() {
   const { boardId } = useParams();
@@ -21,7 +21,6 @@ export default function BoardDetailPage() {
   useEffect(() => {
     fetchBoardDetail();
     fetchComments();
-    // eslint-disable-next-line
   }, [boardId]);
 
   const fetchBoardDetail = async () => {
@@ -70,85 +69,68 @@ export default function BoardDetailPage() {
   const handleReplyOpen = (commentId) => setReplyOpenId(commentId);
   const handleReplyClose = () => setReplyOpenId(null);
 
-  // 댓글/대댓글 렌더링 함수
   const renderComment = (comment, depth = 0) => (
-    <li
-      className={`${styles.commentItem} ${depth === 1 ? styles.replyItem : ''}`}
-      key={comment.commentId}
-      style={{ marginLeft: depth * 28 }}
-    >
-      <div className={styles.commentHeader}>
-        <span className={styles.commentUser}>{comment.userNickname}</span>
-        <span className={styles.commentDate}>{comment.createdAt?.replace('T', ' ').slice(5, 16)}</span>
-        {/* 오른쪽 버튼 그룹 */}
-        {!comment.deletedAt && comment.loginId === currentUserId && (
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-            <button
-              type="button"
-              className={styles.commentEdit}
-              title="댓글 수정"
-              onClick={() =>
-                editOpenId === comment.commentId
-                  ? setEditOpenId(null)
-                  : setEditOpenId(comment.commentId)
-              }
-              aria-label="댓글 수정"
-            >수정</button>
-            <button
-              type="button"
-              className={styles.commentDelete}
-              title="댓글 삭제"
-              onClick={() => handleDeleteComment(comment.commentId)}
-              aria-label="댓글 삭제"
-            >&times;</button>
-          </div>
+    <div key={comment.commentId} style={{ marginBottom: '16px' }}>
+      <div
+        className={`${styles.commentItem} ${depth > 0 ? styles.replyItem : ''}`}
+        style={{ paddingLeft: depth * 20 }}
+      >
+        <div className={styles.commentHeader}>
+          <span className={styles.commentUser}>{comment.userNickname}</span>
+          <span className={styles.commentDate}>{comment.createdAt?.replace('T', ' ').slice(5, 16)}</span>
+          {!comment.deletedAt && comment.loginId === currentUserId && (
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+              <button
+                className={styles.commentEdit}
+                onClick={() => setEditOpenId(prev => prev === comment.commentId ? null : comment.commentId)}
+              >수정</button>
+              <button
+                className={styles.commentDelete}
+                onClick={() => handleDeleteComment(comment.commentId)}
+              >&times;</button>
+            </div>
+          )}
+        </div>
+        <div className={styles.commentContent}>
+          {editOpenId === comment.commentId ? (
+            <CommentEditInput
+              comment={comment}
+              onSuccess={() => {
+                fetchComments();
+                setEditOpenId(null);
+              }}
+              onCancel={() => setEditOpenId(null)}
+            />
+          ) : comment.deletedAt ? (
+            <span style={{ color: '#bbb', fontStyle: 'italic' }}>삭제되었습니다</span>
+          ) : (
+            comment.content
+          )}
+        </div>
+        {!comment.deletedAt && currentUserId && (
+          <button
+            className={styles.replyBtn}
+            onClick={() => replyOpenId === comment.commentId ? handleReplyClose() : handleReplyOpen(comment.commentId)}
+          >답글</button>
         )}
-      </div>
-      <div className={styles.commentContent}>
-        {editOpenId === comment.commentId ? (
-          <CommentEditInput
-            comment={comment}
+        {!comment.deletedAt && replyOpenId === comment.commentId && (
+          <CommentInput
+            boardId={boardId}
+            parentId={comment.commentId}
             onSuccess={() => {
               fetchComments();
-              setEditOpenId(null);
+              handleReplyClose();
             }}
-            onCancel={() => setEditOpenId(null)}
+            autoFocus
           />
-        ) : comment.deletedAt ? (
-          <span style={{ color: "#bbb", fontStyle: "italic" }}>삭제되었습니다</span>
-        ) : (
-          comment.content
         )}
       </div>
-      {!comment.deletedAt && currentUserId && (
-        <button
-          className={styles.replyBtn}
-          onClick={() =>
-            replyOpenId === comment.commentId
-              ? handleReplyClose()
-              : handleReplyOpen(comment.commentId)
-          }
-        >
-          답글
-        </button>
-      )}
-      {!comment.deletedAt && replyOpenId === comment.commentId && (
-        <CommentInput
-          boardId={boardId}
-          parentId={comment.commentId}
-          onSuccess={() => {
-            fetchComments();
-            handleReplyClose();
-          }}
-          autoFocus
-        />
-      )}
       {comment.replies && comment.replies.length > 0 && (
-        <ul className={styles.commentList}>
+        <div style={{ marginTop: 8 }}>
           {comment.replies.map(reply => renderComment(reply, 1))}
-        </ul>
+        </div>
       )}
-    </li>
+    </div>
   );
 
   if (!board) return <div>로딩중...</div>;
@@ -177,11 +159,8 @@ export default function BoardDetailPage() {
         {comments.length === 0 ? (
           <p className={styles.noComment}>댓글이 없습니다.</p>
         ) : (
-          <ul className={styles.commentList}>
-            {comments.map(comment => renderComment(comment))}
-          </ul>
+          comments.map(comment => renderComment(comment))
         )}
-        {/* 최상위 댓글 입력폼 (로그인시만) */}
         {currentUserId && (
           <CommentInput
             boardId={boardId}
@@ -189,9 +168,7 @@ export default function BoardDetailPage() {
           />
         )}
       </div>
-      <div style={{
-        paddingBottom: "100px"
-      }} />
+      <div style={{ paddingBottom: '100px' }} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getBoard } from '../api/board';
 import styles from './BoardList.module.css';
 import { formatBoardDate } from '../utils/dateFormat';
@@ -8,14 +8,17 @@ import BoardTabBar from './BoardTabBar';
 
 export default function BoardList() {
   const [boards, setBoards] = useState([]);
-  const [pageNum, setPageNum] = useState(0);
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
+  const pageNum = parseInt(searchParams.get('page') || '0', 10); // 기본값 0
+
   useEffect(() => {
     fetchBoards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum, pageSize]);
 
   const fetchBoards = async () => {
@@ -36,14 +39,17 @@ export default function BoardList() {
     navigate('/board/create');
   };
 
+  const handlePageChange = (newPage) => {
+    setSearchParams({ page: newPage });
+  };
+
   return (
-    // 화면 전체를 flex로 감싸고 세로 방향 중앙 정렬
     <div style={{
-      minHeight: '80vh', // 높이조절(원하면 100vh)
+      minHeight: '80vh',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center', // 세로 중앙
-      alignItems: 'center', // 가로 중앙
+      justifyContent: 'center',
+      alignItems: 'center',
     }}>
       <BoardTabBar />
       <table className={styles.table} style={{ margin: '0 auto' }}>
@@ -68,17 +74,16 @@ export default function BoardList() {
               </td>
               <td className={`${styles.td} ${styles.infoCell}`}>{board.userNickname}</td>
               <td className={`${styles.td} ${styles.infoCell}`}>{board.viewCount}</td>
-              <td>
-                {formatBoardDate(board.createdAt)}
-              </td>
+              <td>{formatBoardDate(board.createdAt)}</td>
             </tr>
           ))}
         </tbody>
       </table>
+
       <Pagination
         pageNum={pageNum}
         totalPages={totalPages}
-        onPageChange={setPageNum}
+        onPageChange={handlePageChange}
       />
     </div>
   );
