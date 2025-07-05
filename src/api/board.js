@@ -5,12 +5,26 @@ import axiosInstance from './axiosInstance';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 //게시물 등록
-export const createBoard = async (title, content) => {
+export const createBoard = async (title, content, files = []) => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+
+    files.forEach(file => {
+        formData.append('files', file);
+    });
+
     return await axiosInstance.post(
         `${BASE_URL}/board/create`,
-        { title, content }
+        formData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }
     );
 };
+
 
 //게시글 삭제
 export const deleteBoard = async (boardId) => {
@@ -55,9 +69,27 @@ export const getUserBoard = async (pageNum, pageSize) => {
 };
 
 //게시글 수정
-export const updateBoard = async (boardId, title, content) => {
+export const updateBoard = async (boardId, title, content, newFiles = [], deleteFileNames = []) => {
+    const formData = new FormData();
+    formData.append('boardId', boardId);
+    formData.append('title', title);
+    formData.append('content', content);
+
+    newFiles.forEach(file => {
+        formData.append('newFiles', file);
+    });
+
+    deleteFileNames.forEach(name => {
+        formData.append('deleteFileNames', name);
+    });
+
     return await axiosInstance.put(
         `${BASE_URL}/board/update`,
-        { boardId, title, content }
+        formData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }
     );
 };
