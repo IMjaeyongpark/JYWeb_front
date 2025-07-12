@@ -47,6 +47,21 @@ export const getBoard = async (pageNum, pageSize) => {
     );
 };
 
+// 게시글 키워드 검색
+export const searchBoards = async (keyword, pageNum, pageSize) => {
+    
+    const params = { keyword, pageNum };
+    if (pageSize !== undefined && pageSize !== null) {
+        params.pageSize = pageSize;
+    }
+
+    return await axios.get(
+        `${BASE_URL}/board/search`,
+        { params }
+    );
+};
+
+
 //게시글 상세 내용 가져오기
 export const getBoardDetail = async (boardId) => {
     return await axios.get(`${BASE_URL}/board/getDetail`, {
