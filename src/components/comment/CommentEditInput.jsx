@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateComment } from '../api/comment';
+import { updateComment } from '../../api/comment';
 import styles from './CommentEditInput.module.css';
 
 export default function CommentEditInput({ comment, onSuccess, onCancel }) {

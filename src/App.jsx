@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
-import PrivateRoute from './components/PrivateRoute';
+import PrivateRoute from './components/route/PrivateRoute';
 import SignupPage from './pages/SignupPage';
 import BoardDetailPage from './pages/BoardDetailPage';
-import Header from './components/Header';
+import Header from './components/layout/Header';
 import BoardCreatePage from './pages/BoardCreatePage';
 import BoardUpdatePage from './pages/BoardUpdatePage';
 

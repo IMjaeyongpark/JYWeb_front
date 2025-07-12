@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { getBoardDetail, deleteBoard } from '../api/board';
 import { getComment, deleteComment } from '../api/comment';
 import styles from './BoardDetailPage.module.css';
-import CommentInput from '../components/CommentInput';
-import CommentEditInput from '../components/CommentEditInput';
+import CommentInput from '../components/comment/CommentInput';
+import CommentEditInput from '../components/comment/CommentEditInput';
 
 export default function BoardDetailPage() {
   const { boardId } = useParams();

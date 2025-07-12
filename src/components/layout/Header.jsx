@@ -1,6 +1,6 @@
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom';
-import { logout as logoutApi } from '../api/user';
+import { logout as logoutApi } from '../../api/user';
 
 export default function Header({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();

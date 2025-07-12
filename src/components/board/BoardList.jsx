@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getBoard } from '../api/board';
+import { getBoard } from '../../api/board';
 import styles from './BoardList.module.css';
-import { formatBoardDate } from '../utils/dateFormat';
-import Pagination from './Pagination';
+import { formatBoardDate } from '../../utils/dateFormat';
+import Pagination from '../layout/Pagination';
 import BoardTabBar from './BoardTabBar';
 
 export default function BoardList() {

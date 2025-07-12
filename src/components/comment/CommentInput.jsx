@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createComment } from '../api/comment';
+import { createComment } from '../../api/comment';
 
 import styles from './CommentInput.module.css';
 
