@@ -8,6 +8,7 @@ import BoardDetailPage from './pages/BoardDetailPage';
 import Header from './components/layout/Header';
 import BoardCreatePage from './pages/BoardCreatePage';
 import BoardUpdatePage from './pages/BoardUpdatePage';
+import BoardListPage from './pages/BoardListPage';
 
 
 
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/board/:boardId" element={<BoardDetailPage />} />
+          <Route path="/board-list" element={<BoardListPage />} />
            <Route path="/board/create"
             element={
               <PrivateRoute>

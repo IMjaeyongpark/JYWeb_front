@@ -1,3 +1,4 @@
+// components/board/BoardList.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getBoard } from '../../api/board';
@@ -44,14 +45,17 @@ export default function BoardList() {
   };
 
   return (
-    <div style={{
-      minHeight: '80vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
+    <div
+      style={{
+        minHeight: '80vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <BoardTabBar />
+
       <table className={styles.table} style={{ margin: '0 auto' }}>
         <thead className={styles.thead}>
           <tr>
@@ -63,12 +67,13 @@ export default function BoardList() {
           </tr>
         </thead>
         <tbody>
-          {boards.map(board => (
+          {boards.map((board) => (
             <tr className={styles.tr} key={board.boardId}>
               <td className={styles.td}>{board.boardId}</td>
               <td
                 className={styles.titleCell}
                 onClick={() => goDetail(board.boardId)}
+                style={{ cursor: 'pointer', textDecoration: 'underline' }}
               >
                 {board.title}
               </td>
@@ -79,6 +84,12 @@ export default function BoardList() {
           ))}
         </tbody>
       </table>
+
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', margin: '1rem 0' }}>
+        <button className={styles.writeBtn} onClick={goToCreate}>
+          글쓰기
+        </button>
+      </div>
 
       <Pagination
         pageNum={pageNum}

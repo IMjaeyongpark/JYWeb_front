@@ -1,9 +1,11 @@
 import styles from './Header.module.css';
 import { useNavigate } from 'react-router-dom';
 import { logout as logoutApi } from '../../api/user';
+import { useState } from 'react';
 
 export default function Header({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
+  const [headerSearchKeyword, setHeaderSearchKeyword] = useState('');
 
   const goToLoginPage = () => navigate('/login');
   const goToSignupPage = () => navigate('/signup');
@@ -24,15 +26,29 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
     navigate('/');
   };
 
+  // 헤더에서 검색 시 /board-list로 이동 + 쿼리 전달
+  const handleHeaderSearch = (e) => {
+    e.preventDefault();
+    if (!headerSearchKeyword) return;
+    navigate(`/board-list?page=0&keyword=${encodeURIComponent(headerSearchKeyword)}`);
+    setHeaderSearchKeyword('');
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logoSection}>
         <span className={styles.logo} onClick={goHome}>Home</span>
-
         <div className={styles.center}>
-          <input className={styles.search} placeholder="검색" />
+          <form onSubmit={handleHeaderSearch}>
+            <input
+              className={styles.search}
+              placeholder="검색"
+              value={headerSearchKeyword}
+              onChange={e => setHeaderSearchKeyword(e.target.value)}
+            />
+            <button type="submit" style={{ display: 'none' }} />
+          </form>
         </div>
-
         <div className={styles.right}>
           {isLoggedIn ? (
             <button className={styles.btn} onClick={handleLogout}>로그아웃</button>
@@ -44,7 +60,6 @@ export default function Header({ isLoggedIn, setIsLoggedIn }) {
           )}
         </div>
       </div>
-
       <nav className={styles.nav}>
         <a href="/">테스트1</a>
         <a href="/">테스트2</a>

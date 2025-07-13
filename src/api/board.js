@@ -7,8 +7,12 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 //게시물 등록
 export const createBoard = async (title, content, files = []) => {
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
+    // board라는 key에 JSON 통째로 (Blob)
+    const boardData = { title, content };
+    formData.append(
+        'board',
+        new Blob([JSON.stringify(boardData)], { type: 'application/json' })
+    );
 
     files.forEach(file => {
         formData.append('files', file);
@@ -24,6 +28,7 @@ export const createBoard = async (title, content, files = []) => {
         }
     );
 };
+
 
 
 //게시글 삭제
@@ -49,7 +54,7 @@ export const getBoard = async (pageNum, pageSize) => {
 
 // 게시글 키워드 검색
 export const searchBoards = async (keyword, pageNum, pageSize) => {
-    
+
     const params = { keyword, pageNum };
     if (pageSize !== undefined && pageSize !== null) {
         params.pageSize = pageSize;
