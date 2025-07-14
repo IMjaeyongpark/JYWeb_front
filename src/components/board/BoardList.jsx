@@ -1,7 +1,6 @@
-// components/board/BoardList.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getBoard } from '../../api/board';
+import { getBoard, searchBoards } from '../../api/board'; // searchBoards 추가
 import styles from './BoardList.module.css';
 import { formatBoardDate } from '../../utils/dateFormat';
 import Pagination from '../layout/Pagination';
@@ -15,16 +14,23 @@ export default function BoardList() {
 
   const navigate = useNavigate();
 
-  const pageNum = parseInt(searchParams.get('page') || '0', 10); // 기본값 0
+  // pageNum, keyword 파라미터 파싱
+  const pageNum = parseInt(searchParams.get('page') || '0', 10);
+  const keyword = searchParams.get('keyword') || '';
 
   useEffect(() => {
     fetchBoards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNum, pageSize]);
+    // eslint-disable-next-line
+  }, [pageNum, pageSize, keyword]);
 
   const fetchBoards = async () => {
     try {
-      const res = await getBoard(pageNum, pageSize);
+      let res;
+      if (keyword) {
+        res = await searchBoards(keyword, pageNum, pageSize);
+      } else {
+        res = await getBoard(pageNum, pageSize);
+      }
       setBoards(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -36,12 +42,13 @@ export default function BoardList() {
     navigate(`/board/${boardId}`);
   };
 
-  const goToCreate = () => {
-    navigate('/board/create');
-  };
-
   const handlePageChange = (newPage) => {
-    setSearchParams({ page: newPage });
+    // keyword가 있으면 같이 넘겨야 함
+    if (keyword) {
+      setSearchParams({ page: newPage, keyword });
+    } else {
+      setSearchParams({ page: newPage });
+    }
   };
 
   return (
@@ -84,12 +91,6 @@ export default function BoardList() {
           ))}
         </tbody>
       </table>
-
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', margin: '1rem 0' }}>
-        <button className={styles.writeBtn} onClick={goToCreate}>
-          글쓰기
-        </button>
-      </div>
 
       <Pagination
         pageNum={pageNum}
