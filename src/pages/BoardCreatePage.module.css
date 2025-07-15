@@ -1,0 +1,198 @@
+/* 모든 엘리먼트 넓이 계산 일관성 */
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  /* 컨테이너 박스 */
+  .container {
+    max-width: 650px;
+    margin: 2rem auto;
+    padding: 36px 24px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 18px 0 rgba(61, 70, 140, 0.08);
+    border: 1.5px solid #e7e9f5;
+  }
+  
+  /* 제목 */
+  .header {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #3d468c;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+  
+  /* 입력창/텍스트에어리어 */
+  .input,
+  .textarea {
+    width: 100%;
+    border: 1.5px solid #3d468c;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    font-size: 1.08rem;
+    background: #f4f6fa;
+    outline: none;
+    transition: border 0.2s;
+  }
+  
+  .input:focus,
+  .textarea:focus {
+    border-color: #2350e6;
+    background: #f7f9fd;
+  }
+  
+  .textarea {
+    min-height: 110px;
+    resize: vertical;
+  }
+  
+  /* 드래그앤드랍 파일 업로더 */
+  .dropzone {
+    width: 100%;
+    min-height: 110px;
+    border: 2px dashed #3d468c;
+    border-radius: 12px;
+    background: #f7f9fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3d468c;
+    font-size: 1.07rem;
+    margin-bottom: 20px;
+    transition: border-color 0.25s;
+  }
+  
+  .dropzone.dragActive {
+    border-color: #2350e6;
+    background: #e8edfb;
+  }
+  
+  /* 파일 리스트 영역 */
+  .fileList {
+    margin-top: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .fileItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    font-size: 1rem;
+    color: #2c3270;
+  }
+  
+  .fileThumb {
+    max-width: 42px;
+    max-height: 42px;
+    border-radius: 7px;
+    margin-right: 12px;
+    object-fit: cover;
+    border: 1px solid #e2e6f6;
+    background: #fff;
+  }
+  
+  .fileName {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* 삭제 X 버튼 */
+  .deleteBtn {
+    color: #e53935;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 10px;
+    background: none;
+    border: none;
+    outline: none;
+    transition: color 0.18s;
+  }
+  
+  .deleteBtn:hover {
+    color: #c11e1a;
+  }
+  
+  /* 등록 버튼 */
+  .submitBtn {
+    width: 100%;
+    background: #3d468c;
+    color: #fff;
+    padding: 14px 0;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 18px;
+    transition: background 0.18s;
+    box-shadow: 0 2px 6px 0 rgba(61, 70, 140, 0.08);
+    cursor: pointer;
+  }
+  
+  .submitBtn:hover {
+    background: #2350e6;
+  }
+  
+  /* 에러메시지 */
+  .errorMsg {
+    color: #e53935;
+    margin: 7px 0 0 2px;
+    font-size: 1rem;
+  }
+  
+  /* 반응형 (선택) */
+  @media (max-width: 700px) {
+    .container {
+      max-width: 98vw;
+      padding: 18px 4vw;
+    }
+    .header {
+      font-size: 1.5rem;
+    }
+    .dropzone {
+      font-size: 1rem;
+      min-height: 80px;
+    }
+  }
+  .submitBtn {
+    width: 100%;
+    background: linear-gradient(90deg, #3d468c 0%, #2350e6 100%);
+    color: #fff;
+    padding: 15px 0;
+    border: none;
+    border-radius: 18px;
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    margin-top: 22px;
+    box-shadow: 0 3px 14px 0 rgba(61, 70, 140, 0.10);
+    cursor: pointer;
+    transition: 
+      background 0.15s,
+      box-shadow 0.22s,
+      transform 0.13s;
+    outline: none;
+    border-bottom: 3px solid #23307c;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .submitBtn:hover, .submitBtn:focus {
+    background: linear-gradient(90deg, #2350e6 0%, #3d468c 100%);
+    box-shadow: 0 7px 26px 0 rgba(35,80,230,0.17);
+    transform: translateY(-1px) scale(1.017);
+    border-bottom: 0px solid transparent;
+  }
+  
+  .submitBtn:active {
+    background: linear-gradient(90deg, #23307c 0%, #3d468c 100%);
+    transform: scale(0.99);
+    box-shadow: 0 1px 8px 0 rgba(35,80,230,0.11);
+  }
+  
