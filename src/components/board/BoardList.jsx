@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getBoard, searchBoards } from '../../api/board'; // searchBoards 추가
+import { getBoard, searchBoards } from '../../api/board';
 import styles from './BoardList.module.css';
 import { formatBoardDate } from '../../utils/dateFormat';
 import Pagination from '../layout/Pagination';
@@ -11,25 +11,26 @@ export default function BoardList() {
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const navigate = useNavigate();
 
-  // pageNum, keyword 파라미터 파싱
+  // 검색 및 정렬 관련 파라미터
   const pageNum = parseInt(searchParams.get('page') || '0', 10);
   const keyword = searchParams.get('keyword') || '';
+  const sort = searchParams.get('sort') || 'createdAt';
+  const direction = searchParams.get('direction') || 'desc';
 
   useEffect(() => {
     fetchBoards();
     // eslint-disable-next-line
-  }, [pageNum, pageSize, keyword]);
+  }, [pageNum, pageSize, keyword, sort, direction]);
 
   const fetchBoards = async () => {
     try {
       let res;
       if (keyword) {
-        res = await searchBoards(keyword, pageNum, pageSize);
+        res = await searchBoards(keyword, pageNum, pageSize, sort, direction);
       } else {
-        res = await getBoard(pageNum, pageSize);
+        res = await getBoard(pageNum, pageSize, sort, direction);
       }
       setBoards(res.data.content);
       setTotalPages(res.data.totalPages);
@@ -37,18 +38,37 @@ export default function BoardList() {
       alert('게시글 목록 불러오기 실패');
     }
   };
+  
 
   const goDetail = (boardId) => {
     navigate(`/board/${boardId}`);
   };
 
   const handlePageChange = (newPage) => {
-    // keyword가 있으면 같이 넘겨야 함
-    if (keyword) {
-      setSearchParams({ page: newPage, keyword });
-    } else {
-      setSearchParams({ page: newPage });
-    }
+    setSearchParams({
+      page: newPage,
+      keyword,
+      sort,
+      direction,
+    });
+  };
+
+  const handleSortChange = (e) => {
+    setSearchParams({
+      page: 0,
+      keyword,
+      sort: e.target.value,
+      direction,
+    });
+  };
+
+  const handleDirectionToggle = () => {
+    setSearchParams({
+      page: 0,
+      keyword,
+      sort,
+      direction: direction === 'asc' ? 'desc' : 'asc',
+    });
   };
 
   return (
@@ -57,11 +77,23 @@ export default function BoardList() {
         minHeight: '80vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
+        paddingTop: '80px'
       }}
     >
       <BoardTabBar />
+
+      <div className={styles.sortBar}>
+        <label>정렬 기준:</label>
+        <select className={styles.sortSelect} value={sort} onChange={handleSortChange}>
+          <option value="createdAt">최신순</option>
+          <option value="viewCount">조회수순</option>
+        </select>
+        <button className={styles.sortButton} onClick={handleDirectionToggle}>
+          {direction === 'asc' ? '오름차순 ▲' : '내림차순 ▼'}
+        </button>
+      </div>
+
 
       <table className={styles.table} style={{ margin: '0 auto' }}>
         <thead className={styles.thead}>
