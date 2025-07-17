@@ -154,6 +154,20 @@ export default function BoardDetailPage() {
       <hr />
       <div className={styles.content}>{board.content}</div>
       <hr />
+      {board.fileUrls && board.fileUrls.length > 0 && (
+      <div className={styles.attachArea}>
+        <h4 className={styles.attachTitle}>첨부파일</h4>
+        <ul className={styles.attachList}>
+          {board.fileUrls.map((url, i) => (
+            <li key={i}>
+              <a href={url} target="_blank" rel="noopener noreferrer" download>
+                {decodeURIComponent(url.split('/').pop())}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
       <h3>댓글</h3>
       <div style={{ marginTop: 20 }}>
         {comments.length === 0 ? (

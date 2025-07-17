@@ -14,8 +14,8 @@ export const createComment = async (boardId, content, parentId) => {
 
     return await axiosInstance.post(
         `${BASE_URL}/comment/create`,
-         body
-         );
+        body
+    );
 };
 
 //댓글 삭제
@@ -29,7 +29,7 @@ export const deleteComment = async (commentId) => {
 export const getComment = async (boardId) => {
     return await axios.get(
         `${BASE_URL}/comment/get`,
-        {params : { boardId }}
+        { params: { boardId } }
     );
 };
 

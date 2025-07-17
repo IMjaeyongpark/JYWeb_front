@@ -154,3 +154,23 @@
   background: #e5f0fb;
   color: #12518b;
 }
+.attachArea {
+  margin-bottom: 20px;
+}
+.attachTitle {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.attachList {
+  padding-left: 16px;
+}
+.attachList li {
+  list-style: disc;
+  margin-bottom: 4px;
+}
+.attachList a {
+  color: #4a90e2;
+  text-decoration: underline;
+  word-break: break-all;
+}
