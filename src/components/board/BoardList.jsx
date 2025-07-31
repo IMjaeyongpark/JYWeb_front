@@ -88,6 +88,7 @@ export default function BoardList() {
         <select className={styles.sortSelect} value={sort} onChange={handleSortChange}>
           <option value="createdAt">최신순</option>
           <option value="viewCount">조회수순</option>
+          <option value="likeCount">좋아요순</option>
         </select>
         <button className={styles.sortButton} onClick={handleDirectionToggle}>
           {direction === 'asc' ? '오름차순 ▲' : '내림차순 ▼'}
@@ -102,6 +103,7 @@ export default function BoardList() {
             <th className={styles.th}>제목</th>
             <th className={styles.th}>작성자</th>
             <th className={styles.th}>조회수</th>
+            <th className={styles.th}>좋아요</th>
             <th className={styles.th}>작성일</th>
           </tr>
         </thead>
@@ -118,6 +120,7 @@ export default function BoardList() {
               </td>
               <td className={`${styles.td} ${styles.infoCell}`}>{board.userNickname}</td>
               <td className={`${styles.td} ${styles.infoCell}`}>{board.viewCount}</td>
+              <td className={`${styles.td} ${styles.infoCell}`}>{board.likeCount ?? 0}</td>
               <td>{formatBoardDate(board.createdAt)}</td>
             </tr>
           ))}

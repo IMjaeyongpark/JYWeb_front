@@ -61,11 +61,16 @@ export const searchBoards = async (keyword, pageNum, pageSize, sort = 'createdAt
   
 //게시글 상세 내용 가져오기
 export const getBoardDetail = async (boardId) => {
+    const token = localStorage.getItem('accessToken');
+    const headers = token
+        ? { Authorization: `Bearer ${token}` }
+        : {};
+
     return await axios.get(`${BASE_URL}/board/getDetail`, {
         params: { boardId },
-        withCredentials: true
-    }
-    );
+        withCredentials: true,
+        headers,
+    });
 };
 
 //특정 사용자 게시물 목록 가져오기
@@ -103,5 +108,17 @@ export const updateBoard = async (boardId, title, content, newFiles = [], delete
                 'Content-Type': 'multipart/form-data',
             },
         }
+    );
+};
+
+//게시글 좋아요
+export const likeBoard = async (boardId) => {
+    return await axiosInstance.post(`${BASE_URL}/board/${boardId}/like`
+    );
+};
+
+//게시글 좋아요 취소
+export const unlikeBoard = async (boardId) => {
+    return await axiosInstance.delete(`${BASE_URL}/board/${boardId}/like`
     );
 };
